@@ -1,0 +1,343 @@
+{
+  "roadmaps": [
+    {
+      "topic": "react",
+      "steps": [
+        {
+          "id": 1,
+          "title": "JavaScript ES6+ Essentials",
+          "description": "Master modern JavaScript features like arrow functions, destructuring, spread operators, and modules required for React development.",
+          "lesson": {
+            "title": "JavaScript ES6+ Essentials for React",
+            "introduction": "Before diving into React, you must master specific modern JavaScript features. React relies heavily on these ES6+ patterns to manage data, pass information between components, and keep code concise. Mastering these will make reading React code feel natural rather than overwhelming.",
+            "sections": [
+              {
+                "title": "Arrow Functions",
+                "content": "Arrow functions provide a shorter syntax for writing functions. In React, they are used everywhere: defining components, handling clicks, and mapping through lists. A key feature is the 'implicit return,' where if the function is a single line, you can omit the curly braces and the 'return' keyword."
+              },
+              {
+                "title": "Destructuring",
+                "content": "Destructuring is a way to 'unpack' values from arrays or properties from objects into distinct variables. In React, this is the primary way we extract data from 'props' (the data passed to a component) and 'state' (the data held within a component). Instead of writing 'props.name' repeatedly, you can simply destructure 'name' from the props object."
+              },
+              {
+                "title": "Spread and Rest Operators",
+                "content": "The spread operator (...), also known as the 'triple dot,' allows you to quickly copy all elements from an array or all properties from an object into a new one. In React, we never modify data directly (a concept called 'immutability'). Instead, we use the spread operator to create a copy of our existing data, add or change something, and then save that new copy."
+              },
+              {
+                "title": "ES Modules (Import and Export)",
+                "content": "Modules allow you to break your code into separate files. This is how React applications are built: every component is usually its own file. You use 'export' to make a function or component available to the rest of your app, and 'import' to bring those components into the files where you want to use them."
+              }
+            ],
+            "examples": [
+              {
+                "title": "Arrow Functions vs Regular Functions",
+                "code": "// Traditional Function\nfunction greet(name) {\n  return 'Hello ' + name;\n}\n\n// Arrow Function (Long form)\nconst greetArrow = (name) => {\n  return `Hello ${name}`;\n};\n\n// Arrow Function (Short form with implicit return)\nconst greetShort = name => `Hello ${name}`;"
+              },
+              {
+                "title": "Object Destructuring",
+                "code": "const user = {\n  id: 1,\n  username: 'dev_learner',\n  email: 'learn@example.com'\n};\n\n// Instead of: const username = user.username;\n// Use destructuring:\nconst { username, email } = user;\n\nconsole.log(username); // 'dev_learner'"
+              },
+              {
+                "title": "Spread Operator for Immutability",
+                "code": "// Updating an object without changing the original\nconst settings = { theme: 'dark', notifications: true };\n\n// Create a new object, copy everything from settings, but change theme\nconst newSettings = { ...settings, theme: 'light' };\n\nconsole.log(settings.theme);    // 'dark' (original stays same)\nconsole.log(newSettings.theme); // 'light' (new copy is updated)"
+              },
+              {
+                "title": "Modules (Import/Export)",
+                "code": "// mathUtils.js\nexport const add = (a, b) => a + b;\nexport const multiply = (a, b) => a * b;\n\n// App.js\nimport { add, multiply } from './mathUtils.js';\n\nconsole.log(add(5, 5)); // 10"
+              }
+            ],
+            "keyTakeaways": [
+              "Arrow functions offer a concise syntax and are used for almost all functional logic in React.",
+              "Destructuring is the standard way to extract data from objects and arrays.",
+              "The spread operator (...) is essential for updating state without mutating the original data.",
+              "Modules (import/export) are the foundation of the component-based architecture in React."
+            ]
+          }
+        },
+        {
+          "id": 2,
+          "title": "JSX and Component Fundamentals",
+          "description": "Understand JSX syntax and learn how to build reusable UI elements using functional components.",
+          "lesson": {
+            "title": "Mastering JSX and Functional Components",
+            "introduction": "Welcome to the foundation of React development. In this lesson, you will learn how to write UI using JSX and how to structure your application into reusable functional components.",
+            "sections": [
+              {
+                "title": "What is JSX?",
+                "content": "JSX stands for JavaScript XML, a syntax extension that allows you to write HTML-like code directly within your JavaScript files. It provides a visual representation of the UI, making your code easier to read and maintain while being transformed into standard JavaScript objects under the hood."
+              },
+              {
+                "title": "Embedding Expressions in JSX",
+                "content": "To make your UI dynamic, you can embed any valid JavaScript expression directly inside your JSX using curly braces. This allows you to display variables, perform mathematical operations, or call functions within your markup."
+              },
+              {
+                "title": "Component Composition",
+                "content": "React encourages a pattern called composition, where you build complex interfaces by nesting smaller, specialized components inside larger ones. This modular approach makes your code more readable and easier to maintain."
+              }
+            ],
+            "examples": [
+              {
+                "title": "Basic JSX Syntax",
+                "code": "const element = <h1 className=\"greeting\">Hello, React!</h1>;"
+              },
+              {
+                "title": "Using Expressions in JSX",
+                "code": "function UserProfile() {\n  const username = \"JaneDoe\";\n  const userAge = 28;\n\n  return (\n    <div className=\"profile-card\">\n      <h2>User: {username}</h2>\n      <p>Age: {userAge}</p>\n      <p>Next year: {userAge + 1}</p>\n      <p>Status: {username.toUpperCase()}</p>\n    </div>\n  );\n}"
+              }
+            ],
+            "keyTakeaways": [
+              "JSX allows you to write HTML-like structures directly inside JavaScript.",
+              "Use curly braces `{}` to inject dynamic JavaScript values into your JSX.",
+              "Build complex UIs by nesting small, reusable components within larger ones."
+            ]
+          }
+        },
+        {
+          "id": 3,
+          "title": "Props and Data Flow",
+          "description": "Learn how to pass data from parent to child components using props and understand one-way data flow."
+        },
+        {
+          "id": 4,
+          "title": "State Management with useState",
+          "description": "Master the useState hook to manage local component data and handle user interactivity."
+        },
+        {
+          "id": 5,
+          "title": "Handling Lists and Keys",
+          "description": "Learn how to render dynamic arrays of data using the map function and the importance of unique keys."
+        },
+        {
+          "id": 6,
+          "title": "Side Effects with useEffect",
+          "description": "Understand the component lifecycle and how to perform side effects like API calls and manual DOM updates."
+        },
+        {
+          "id": 7,
+          "title": "Client-Side Routing",
+          "description": "Implement navigation in a single-page application using React Router."
+        },
+        {
+          "id": 8,
+          "title": "Advanced Hooks",
+          "description": "Explore useRef, useMemo, and useCallback to manage references and optimize component performance."
+        },
+        {
+          "id": 9,
+          "title": "Global State Management",
+          "description": "Learn to manage application-wide state using the Context API or external libraries like Redux or Zustand."
+        },
+        {
+          "id": 10,
+          "title": "Form Handling and Validation",
+          "description": "Build controlled components and manage complex user inputs and form validation logic."
+        },
+        {
+          "id": 11,
+          "title": "Testing React Applications",
+          "description": "Write unit and integration tests using Jest and React Testing Library to ensure application reliability."
+        },
+        {
+          "id": 12,
+          "title": "Performance Optimization and Deployment",
+          "description": "Learn about code-splitting, lazy loading, and how to deploy your React applications to production."
+        }
+      ]
+    },
+    {
+      "topic": "javascript",
+      "steps": [
+        {
+          "id": 1,
+          "title": "JavaScript Fundamentals",
+          "description": "Learn about variables, primitive data types, and basic operators.",
+          "lesson": null
+        },
+        {
+          "id": 2,
+          "title": "Control Flow",
+          "description": "Master conditional statements like if/else and various loop structures.",
+          "lesson": {
+            "title": "Mastering Control Flow in JavaScript",
+            "introduction": "Control flow refers to the order in which the computer executes the statements in your script. By mastering conditional statements and loops, you can transform static code into dynamic programs that react to different inputs.",
+            "sections": [
+              {
+                "title": "Conditional Statements: Making Decisions",
+                "content": "Conditional statements allow your code to branch into different paths based on whether a condition is true or false. Using 'if', 'else if', and 'else', you can execute specific blocks of code only when certain criteria are met."
+              }
+            ],
+            "examples": [
+              {
+                "title": "Basic If/Else Logic",
+                "code": "const temperature = 25;\n\nif (temperature > 30) {\n  console.log('It is a hot day!');\n} else if (temperature > 15) {\n  console.log('The weather is pleasant.');\n} else {\n  console.log('It is a cold day.');\n}"
+              }
+            ],
+            "keyTakeaways": [
+              "Conditionals enable code to make decisions based on boolean evaluations."
+            ]
+          },
+          "quiz": {
+            "questions": [
+              {
+                "id": 1,
+                "type": "multiple_choice",
+                "question": "What does control flow refer to in a script?",
+                "options": [
+                  "The speed of execution",
+                  "The order of statement execution",
+                  "The way variables are declared",
+                  "The total number of lines of code"
+                ],
+                "correctAnswer": 1,
+                "explanation": "Control flow refers to the order in which the computer executes the statements in your script."
+              },
+              {
+                "id": 2,
+                "type": "true_false",
+                "question": "Conditional statements allow code to branch into different paths.",
+                "options": [
+                  "True",
+                  "False"
+                ],
+                "correctAnswer": 0,
+                "explanation": "Conditional statements allow code to branch into different paths based on whether a condition is true or false."
+              },
+              {
+                "id": 3,
+                "type": "true_false",
+                "question": "Control flow refers to the order in which statements are executed.",
+                "options": [
+                  "True",
+                  "False"
+                ],
+                "correctAnswer": 0,
+                "explanation": "Control flow refers to the order in which the computer executes the statements in your script."
+              },
+              {
+                "id": 4,
+                "type": "multiple_choice",
+                "question": "What do conditional statements use to make decisions?",
+                "options": [
+                  "Boolean evaluations",
+                  "Static code",
+                  "Loops only",
+                  "Input strings"
+                ],
+                "correctAnswer": 0,
+                "explanation": "Conditionals enable code to make decisions based on boolean evaluations."
+              },
+              {
+                "id": 5,
+                "type": "multiple_choice",
+                "question": "What refers to the order in which the computer executes statements in a script?",
+                "options": [
+                  "Control flow",
+                  "Boolean evaluation",
+                  "Conditional statements",
+                  "Loops"
+                ],
+                "correctAnswer": 0,
+                "explanation": "Control flow refers to the order in which the computer executes the statements in your script."
+              }
+            ]
+          }
+        },
+        {
+          "id": 3,
+          "title": "Functions and Scope",
+          "description": "Understand function declarations, expressions, and how scope affects variable access."
+        },
+        {
+          "id": 4,
+          "title": "Arrays and Objects",
+          "description": "Explore how to store and manipulate data using arrays and object literals."
+        },
+        {
+          "id": 5,
+          "title": "DOM Manipulation",
+          "description": "Learn to select, modify, and interact with HTML elements through the Document Object Model."
+        },
+        {
+          "id": 6,
+          "title": "ES6+ Modern Syntax",
+          "description": "Adopt modern features such as destructuring, spread operators, and template literals."
+        },
+        {
+          "id": 7,
+          "title": "Asynchronous JavaScript",
+          "description": "Understand how to handle asynchronous tasks using callbacks, Promises, and Async/Await."
+        },
+        {
+          "id": 8,
+          "title": "Advanced Core Concepts",
+          "description": "Deep dive into closures, prototypes, hoisting, and the 'this' keyword."
+        },
+        {
+          "id": 9,
+          "title": "Error Handling and Debugging",
+          "description": "Learn to manage runtime errors using try/catch and utilize browser developer tools."
+        },
+        {
+          "id": 10,
+          "title": "Modules and Ecosystem",
+          "description": "Explore ES modules and how to use package managers like NPM for project management."
+        }
+      ]
+    },
+    {
+      "topic": "html",
+      "steps": [
+        {
+          "id": 1,
+          "title": "Introduction to HTML & Basic Syntax",
+          "description": "Learn the core concepts of HTML, including tags, elements, and the role of attributes."
+        },
+        {
+          "id": 2,
+          "title": "Document Structure",
+          "description": "Understand the essential boilerplate required for every HTML document, including DOCTYPE, head, and body."
+        },
+        {
+          "id": 3,
+          "title": "Text Elements & Formatting",
+          "description": "Master common text tags such as headings, paragraphs, lists, and basic inline formatting."
+        },
+        {
+          "id": 4,
+          "title": "Hyperlinks & Navigation",
+          "description": "Learn how to connect web pages and navigate within a site using anchor tags and URL structures."
+        },
+        {
+          "id": 5,
+          "title": "Working with Images",
+          "description": "Discover how to embed visual content using the img tag and understand the importance of alt text."
+        },
+        {
+          "id": 6,
+          "title": "Tables & Data Organization",
+          "description": "Learn to structure and display tabular data using table, tr, td, and th elements."
+        },
+        {
+          "id": 7,
+          "title": "Forms & User Input",
+          "description": "Build interactive user interfaces using input types, labels, select menus, and buttons."
+        },
+        {
+          "id": 8,
+          "title": "Semantic HTML5",
+          "description": "Use meaningful structural elements like header, nav, main, section, and footer to define content."
+        },
+        {
+          "id": 9,
+          "title": "Multimedia Integration",
+          "description": "Learn to embed advanced media such as audio, video, and iframes directly into your pages."
+        },
+        {
+          "id": 10,
+          "title": "Web Accessibility & SEO",
+          "description": "Implement ARIA roles and meta tags to improve accessibility and search engine visibility."
+        }
+      ]
+    }
+  ]
+}
