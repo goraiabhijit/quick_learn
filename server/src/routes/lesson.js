@@ -10,8 +10,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DATA_FILE = path.join(__dirname, "../../data/roadmaps.json");
 
 const MODEL = "models/gemma-4-26b-a4b-it";
-const MAX_ITERATIONS = 5;   // hard cap — never call the model more than this
-const TOKENS_PER_CHUNK = 1024; // keep each response small and focused
+const MAX_ITERATIONS = 5;
 
 // ---------- helpers ----------
 
@@ -24,17 +23,12 @@ async function writeRoadmaps(data) {
   await writeFile(DATA_FILE, JSON.stringify(data, null, 2), "utf-8");
 }
 
-/**
- * Parse and strip markdown fences from a model response string.
- * Returns the parsed object or throws a descriptive error.
- */
 function parseModelJSON(text) {
   const cleaned = text
     .trim()
     .replace(/^```(?:json)?\s*/i, "")
     .replace(/\s*```$/, "")
     .trim();
-
   try {
     return JSON.parse(cleaned);
   } catch (e) {
@@ -44,15 +38,8 @@ function parseModelJSON(text) {
 
 /**
  * Iterative lesson generator.
- *
- * Each call asks the model for one chunk of content.
- * The model replies with:
- *   { done: false, sections: [...], examples: [...], keyTakeaways: [...] }
- * or, on its final chunk:
- *   { done: true,  sections: [...], examples: [...], keyTakeaways: [...] }
- *
- * We accumulate all chunks and stop when done === true OR we hit MAX_ITERATIONS.
- * The first iteration also generates title + introduction (one-time fields).
+ * Each iteration asks for a small chunk. The model signals done: true when finished.
+ * Hard cap at MAX_ITERATIONS to prevent runaway loops.
  */
 async function generateLesson(topic, stepTitle, description) {
   const apiKey = process.env.GEMINI_API_KEY;
@@ -62,7 +49,6 @@ async function generateLesson(topic, stepTitle, description) {
 
   const ai = new GoogleGenAI({ apiKey });
 
-  // Accumulated output
   const lesson = {
     title: "",
     introduction: "",
@@ -85,7 +71,6 @@ async function generateLesson(topic, stepTitle, description) {
 
     const prompt = isFirst
       ? `You are generating structured lesson content in multiple iterations.
-
 Topic: ${topic}
 Roadmap step: ${stepTitle}
 Description: ${description}
@@ -108,13 +93,12 @@ Return ONLY valid JSON in exactly this shape:
 
 Rules:
 - Generate 1-2 sections, 0-1 examples, 0-2 key takeaways in this chunk.
-- Set "done": false if there is more content to add (more sections, examples, or takeaways).
+- Set "done": false if there is more content to add.
 - Set "done": true only if this chunk completes the lesson entirely.
 - Keep code examples short and focused.
 - Return ONLY the JSON object. No extra text.`
 
       : `You are continuing to generate lesson content in multiple iterations.
-
 Topic: ${topic}
 Roadmap step: ${stepTitle}
 
@@ -141,21 +125,26 @@ Rules:
 - Add 1-2 NEW sections (do not repeat what was already covered).
 - Add 0-1 new examples if useful.
 - Add 1-2 new key takeaways.
-- Set "done": true when the lesson is complete. Set "done": false if more content is needed.
-- If this is the last chunk, set "done": true.
+- Set "done": true when the lesson is complete, "done": false if more is needed.
 - Return ONLY the JSON object. No extra text.`;
 
-    const response = await ai.models.generateContent({
-      model: MODEL,
-      contents: prompt,
-      config: { maxOutputTokens: TOKENS_PER_CHUNK },
-    });
+    // NOTE: no config/maxOutputTokens — this caused response.text to be undefined
+    // in @google/genai 0.7.0 on some responses.
+    let response;
+    try {
+      response = await ai.models.generateContent({
+        model: MODEL,
+        contents: prompt,
+      });
+    } catch (e) {
+      console.warn(`Iteration ${iteration} API error: ${e.message}. Stopping loop.`);
+      break;
+    }
 
     let chunk;
     try {
       chunk = parseModelJSON(response.text);
     } catch (e) {
-      // If a mid-loop chunk fails to parse, stop with what we have so far
       console.warn(`Iteration ${iteration} parse error: ${e.message}. Stopping loop.`);
       break;
     }
@@ -164,13 +153,9 @@ Rules:
     if (isFirst) {
       lesson.title = chunk.title || stepTitle;
       lesson.introduction = chunk.introduction || "";
-      // If the model gave us nothing useful on iteration 1, abort early
-      if (!chunk.sections || chunk.sections.length === 0) {
-        throw new Error("Model returned an empty first chunk. Please try again.");
-      }
     }
 
-    // Accumulate arrays
+    // Accumulate arrays — guard against missing fields gracefully
     if (Array.isArray(chunk.sections))     lesson.sections.push(...chunk.sections);
     if (Array.isArray(chunk.examples))     lesson.examples.push(...chunk.examples);
     if (Array.isArray(chunk.keyTakeaways)) lesson.keyTakeaways.push(...chunk.keyTakeaways);
@@ -181,12 +166,15 @@ Rules:
       `takeaways: ${lesson.keyTakeaways.length}`
     );
 
-    // Stop if model signals completion
     if (chunk.done === true) break;
   }
 
-  if (!lesson.title) {
-    throw new Error("Model response is missing required fields.");
+  // Use stepTitle as fallback if model never returned a title
+  if (!lesson.title) lesson.title = stepTitle;
+
+  // Need at least something to show
+  if (lesson.sections.length === 0 && lesson.introduction === "") {
+    throw new Error("Model failed to generate lesson content. Please try again.");
   }
 
   return lesson;
@@ -236,8 +224,8 @@ router.post("/", async (req, res) => {
       description || step.description
     );
 
-    // 5. Only save if the lesson is usable
-    if (lesson.title && lesson.sections && lesson.sections.length > 0) {
+    // 5. Only save if the lesson has actual content
+    if (lesson.title && (lesson.sections.length > 0 || lesson.introduction)) {
       store.roadmaps[roadmapIndex].steps[stepIndex].lesson = lesson;
       await writeRoadmaps(store);
     }
@@ -245,7 +233,6 @@ router.post("/", async (req, res) => {
     return res.json(lesson);
   } catch (err) {
     console.error("Lesson generation error:", err.message);
-
     if (err.message.includes("GEMINI_API_KEY")) {
       return res.status(500).json({ error: "API key not configured." });
     }

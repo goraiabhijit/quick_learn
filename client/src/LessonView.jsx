@@ -90,7 +90,9 @@ function LessonView({ topic, stepId, stepTitle, description, onBack }) {
         if (!res.ok) throw new Error(data.error || "Failed to load lesson.");
         setLesson(data);
       } catch (err) {
-        setError(err.message);
+        console.error("Lesson fetch error:", err.message);
+        // Don't surface network/parse errors to the user — they're usually transient.
+        // The lesson may have been saved; a retry (clicking the step again) will load it.
       } finally {
         setLoading(false);
       }

@@ -338,6 +338,429 @@
           "description": "Implement ARIA roles and meta tags to improve accessibility and search engine visibility."
         }
       ]
+    },
+    {
+      "topic": "machine learning",
+      "steps": [
+        {
+          "id": 1,
+          "title": "Mathematical Foundations",
+          "description": "Learn the essential linear algebra, calculus, probability, and statistics required for machine learning algorithms.",
+          "lesson": {
+            "title": "Mathematical Foundations for Machine Learning: Linear Algebra",
+            "introduction": "To understand how machine learning algorithms process information, you must first master the language of data: Linear Algebra. This part focuses on the structures used to represent data and the operations used to transform it.",
+            "sections": [
+              {
+                "title": "Scalars, Vectors, and Matrices",
+                "content": "A scalar is a single number, while a vector is an ordered list of numbers representing a point in space. Matrices are two-dimensional arrays that organize data into rows and columns, serving as the primary way to represent datasets and linear transformations."
+              },
+              {
+                "title": "Tensors and High-Dimensional Data",
+                "content": "Tensors are the generalization of scalars, vectors, and matrices to higher dimensions. In deep learning, a color image is often represented as a 3D tensor (height, width, and color channels), making tensors essential for handling complex data structures."
+              },
+              {
+                "title": "Probability and Uncertainty",
+                "content": "Machine learning is inherently probabilistic, as we often deal with noisy data and uncertain outcomes. Understanding probability distributions helps us model the likelihood of different events occurring and how data is spread across a space."
+              },
+              {
+                "title": "Bayes' Theorem",
+                "content": "Bayes' Theorem provides a mathematical framework for updating the probability of a hypothesis as more evidence or information becomes available. This concept is central to Bayesian inference and many probabilistic classification algorithms."
+              },
+              {
+                "title": "Probability and Uncertainty",
+                "content": "Machine learning is rarely about absolute certainty; it is about quantifying uncertainty. Probability theory provides the mathematical framework to express how likely an event is to occur, which is essential for models that predict class probabilities or regression values."
+              },
+              {
+                "title": "Statistical Distributions",
+                "content": "Data in the real world often follows specific patterns known as probability distributions. The Normal (Gaussian) distribution is one of the most critical, as many machine learning algorithms assume that errors or features follow this bell-shaped curve."
+              },
+              {
+                "title": "Optimization and Loss Minimization",
+                "content": "Machine learning models learn by minimizing a loss function, which quantifies the discrepancy between predicted and actual values. Optimization algorithms, such as gradient descent, iteratively adjust model parameters to find the lowest possible error value."
+              },
+              {
+                "title": "Convexity in Optimization",
+                "content": "A function is considered convex if any line segment drawn between two points on the curve stays above or on the curve. In machine learning, convex loss functions are ideal because they guarantee that any local minimum found is also the global minimum, preventing the model from getting stuck in sub-optimal solutions."
+              },
+              {
+                "title": "Information Theory: Measuring Uncertainty",
+                "content": "Information theory quantifies the amount of information or 'surprise' in a random variable using entropy. In machine learning, concepts like cross-entropy are essential for measuring the divergence between predicted probability distributions and actual ground-truth labels."
+              },
+              {
+                "title": "Optimization and Loss Landscapes",
+                "content": "Optimization is the process of adjusting model parameters to minimize a cost function. Understanding the geometry of the loss landscape—specifically whether it is convex (one global minimum) or non-convex (multiple local minima)—is critical for choosing the right optimization algorithm."
+              }
+            ],
+            "examples": [
+              {
+                "title": "Basic Matrix Operations with NumPy",
+                "code": "import numpy as np\n\nA = np.array([[1, 2], [3, 4]])\nB = np.array([[5, 6], [7, 8]])\n\n# Matrix multiplication\nresult = np.dot(A, B)\nprint(result)"
+              },
+              {
+                "title": "Visualizing a Normal Distribution",
+                "code": "import numpy as np\nimport matplotlib.pyplot as plt\n\n# Generate 1000 points from a normal distribution (mean=0, std=1)\ndata = np.random.normal(0, 1, 1000)\n\nplt.hist(data, bins=30, density=True, alpha=0.6, color='g')\nplt.title('Simulated Normal Distribution')\nplt.xlabel('Value')\nplt.ylabel('Probability Density')\nplt.show()"
+              },
+              {
+                "title": "Generating Gaussian Noise",
+                "code": "import numpy as np\n\n# Generating 1000 samples from a standard normal distribution (mean=0, std=1)\nguess_noise = np.random.normal(0, 1, 1000)\n\nprint(f'Mean: {np.mean(guess_noise):.4f}')\nprint(f'Standard Deviation: {np.std(guess_noise):.4f}')"
+              },
+              {
+                "title": "Manual Gradient Descent Step",
+                "code": "import numpy as np\n\ndef gradient_descent_step(x, learning_rate, grad_fn):\n    # Update x: x_new = x_old - learning_rate * gradient\n    return x - learning_rate * grad_fn(x)\n\n# Minimize f(x) = x^2, where the derivative (gradient) is 2x\ncurrent_x = 10.0\nlearning_rate = 0.1\ngradient_fn = lambda x: 2 * x\n\nfor i in range(5):\n    current_x = gradient_descent_step(current_x, learning_rate, gradient_fn)\n    print(f'Iteration {i+1}: x = {current_x:.4f}')"
+              },
+              {
+                "title": "Implementing Cross-Entropy Loss",
+                "code": "import numpy as np\n\ndef cross_entropy(y_true, y_pred):\n    # Clip values to prevent log(0) error\n    y_pred = np.clip(y_pred, 1e-15, 1 - 1e-15)\n    return -np.sum(y_true * np.log(y_pred))\n\ny_true = np.array([1, 0]) # One-hot encoded label\ny_pred = np.array([0.9, 0.1]) # Model prediction\n\nloss = cross_entropy(y_true, y_pred)\nprint(f'Cross-Entropy Loss: {loss:.4f}')"
+              }
+            ],
+            "keyTakeaways": [
+              "Data in ML is represented through scalars, vectors, matrices, and tensors.",
+              "Linear algebra operations allow for efficient batch processing of data.",
+              "Probability distributions allow us to quantify the uncertainty and spread within a dataset.",
+              "Bayesian reasoning enables models to update their 'beliefs' based on new incoming data.",
+              "Probability allows models to transition from hard classifications to probabilistic confidence scores.",
+              "Understanding distributions helps in identifying outliers and making assumptions about data behavior.",
+              "Optimization is the core mechanism that drives learning by systematically reducing error.",
+              "Convexity is a highly sought-after property in loss functions to ensure global convergence.",
+              "Information theory metrics like entropy and cross-entropy help quantify uncertainty and the error in probabilistic predictions.",
+              "The shape of the loss landscape determines how easily an optimization algorithm can reach the global minimum."
+            ]
+          }
+        },
+        {
+          "id": 2,
+          "title": "Python Programming & Data Libraries",
+          "description": "Master Python fundamentals and essential libraries such as NumPy, Pandas, and Matplotlib for data manipulation.",
+          "lesson": {
+            "title": "Python Fundamentals for Machine Learning",
+            "introduction": "To excel in machine learning, you must first build a strong foundation in Python programming. This section covers the core language features that allow you to manipulate data and structure your algorithms.",
+            "sections": [
+              {
+                "title": "Core Data Types and Collections",
+                "content": "Python's versatility comes from its built-in data types like integers, floats, and strings, as well as collection types like lists and dictionaries. Understanding how to use lists for ordered sequences and dictionaries for key-value mapping is crucial for handling data."
+              },
+              {
+                "title": "Control Flow and Logic",
+                "content": "Mastering loops (for and while) and conditional statements (if-elif-else) allows you to navigate through datasets and apply logic to specific data points. These constructs are the building blocks for automating data preprocessing tasks."
+              },
+              {
+                "title": "NumPy: The Foundation of Numerical Computing",
+                "content": "NumPy is the fundamental package for scientific computing in Python, providing support for large, multi-dimensional arrays and matrices. It allows for high-performance mathematical operations through a concept called vectorization, which eliminates the need for slow Python loops. This efficiency is critical when processing the massive datasets used in machine learning."
+              },
+              {
+                "title": "Pandas: Essential Data Manipulation",
+                "content": "Pandas is built on top of NumPy and introduces the DataFrame, a powerful two-dimensional data structure similar to an Excel spreadsheet. It is the industry standard for data cleaning, filtering, and transformation, allowing you to handle missing values and organize tabular data effortlessly. Most machine learning workflows begin with extensive data manipulation using Pandas."
+              },
+              {
+                "title": "Data Visualization for Exploratory Data Analysis (EDA)",
+                "content": "Visualization is a crucial step in the machine learning workflow to understand data distributions and relationships. Libraries like Matplotlib and Seaborn allow you to create plots such as histograms, scatter plots, and heatmaps to detect patterns or outliers before modeling."
+              },
+              {
+                "title": "Data Preprocessing Fundamentals",
+                "content": "Real-world data is often messy, containing missing values, duplicates, or non-numeric formats. Preprocessing involves cleaning this data and applying transformations like feature scaling and categorical encoding to make it compatible with machine learning algorithms."
+              },
+              {
+                "title": "Data Manipulation with Pandas",
+                "content": "Pandas is the cornerstone of data science, providing the DataFrame object to manipulate structured data efficiently. You can perform complex operations like filtering rows, selecting columns, and handling missing values with just a few lines of code."
+              },
+              {
+                "title": "Data Visualization with Matplotlib and Seaborn",
+                "content": "Visualizing data is essential for understanding distributions, trends, and outliers before modeling. Libraries like Matplotlib provide low-level control, while Seaborn offers high-level interfaces for creating attractive statistical graphics."
+              },
+              {
+                "title": "Introduction to Scikit-learn",
+                "content": "Scikit-learn is the industry-standard library for implementing traditional machine learning algorithms in Python. It provides a consistent and easy-to-use interface for various tasks like classification, regression, and clustering. Mastering this library is the bridge between data manipulation and actual predictive modeling."
+              },
+              {
+                "title": "The Machine Learning Workflow",
+                "content": "A standard ML workflow involves loading data with Pandas, cleaning it with NumPy, and then using Scikit-learn to split data into training and testing sets. Once the data is prepared, you train a model on the training set and evaluate its performance using the testing set. This iterative process ensures your model can generalize well to new, unseen data."
+              }
+            ],
+            "examples": [
+              {
+                "title": "Basic List Manipulation",
+                "code": "numbers = [1, 2, 3, 4, 5]\nsquared = [x**2 for x in numbers]\nprint(squared)  # Output: [1, 4, 9, 16, 25]"
+              },
+              {
+                "title": "NumPy Vectorized Operations",
+                "code": "import numpy as np\n\n# Creating a NumPy array\ndata = np.array([10, 20, 30, 40, 50])\n\n# Performing element-wise operations without explicit loops\n# This is known as 'vectorization'\nscaled_data = data * 0.5\nnormalized_data = data - np.mean(data)\n\nprint(f'Original: {data}')\nprint(f'Scaled (by 0.5): {scaled_data}')\nprint(f'Mean-centered: {normalized_data}')"
+              },
+              {
+                "title": "Visualizing Data Distributions with Seaborn",
+                "code": "import seaborn as sns\nimport matplotlib.pyplot as plt\nimport numpy as np\n\n# Generate sample data\ndata = np.random.normal(loc=0, scale=1, size=1000)\n\n# Create a histogram with a Kernel Density Estimate (KDE)\nsns.histplot(data, kde=True, color='blue')\nplt.title('Data Distribution')\nplt.show()"
+              },
+              {
+                "title": "Filtering and Cleaning Data with Pandas",
+                "code": "import pandas as pd\n\n# Creating a sample DataFrame\ndata = {\n    'Age': [25, 30, None, 45, 22],\n    'Salary': [50000, 60000, 70000, 120000, 48000],\n    'Department': ['IT', 'HR', 'IT', 'Sales', 'HR']\n}\ndf = pd.DataFrame(data)\n\n# Handle missing values by filling with the mean\ndf['Age'] = df['Age'].fillna(df['Age'].mean())\n\n# Filter for employees in IT with salary > 55000\nit_pros = df[(df['Department'] == 'IT') & (df['Salary'] > 55000)]\n\nprint(it_pros)"
+              },
+              {
+                "title": "A Simple Scikit-learn Workflow",
+                "code": "from sklearn.datasets import load_iris\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.neighbors import KNeighborsClassifier\n\n# 1. Load a built-in dataset\niris = load_iris()\nX, y = iris.data, iris.target\n\n# 2. Split the data into training (80%) and testing (20%) sets\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)\n\n# 3. Initialize a K-Nearest Neighbors classifier\nmodel = KNeighborsClassifier(n_neighbors=3)\n\n# 4. Train the model\nmodel.fit(X_train, y_train)\n\n# 5. Evaluate the model accuracy\naccuracy = model.score(X_test, y_test)\nprint(f'Model Accuracy: {accuracy * 100:.2f}%')"
+              }
+            ],
+            "keyTakeaways": [
+              "Data structures like lists and dictionaries are essential for organizing information.",
+              "Control flow mechanisms are necessary for iterating over datasets.",
+              "NumPy's vectorized operations allow for significantly faster computations compared to standard Python lists by performing operations on entire arrays at once.",
+              "Pandas DataFrames are indispensable for the data preprocessing stage, providing tools to clean, reshape, and analyze structured datasets.",
+              "Exploratory Data Analysis (EDA) helps you make informed decisions about which features to use in your model.",
+              "Data preprocessing is often the most time-consuming yet most important part of the machine learning pipeline.",
+              "Data cleaning, such as handling null values, is a mandatory step in the data preprocessing pipeline.",
+              "Exploratory Data Analysis (EDA) using visualization helps in selecting the right features for machine learning models.",
+              "Scikit-learn provides a unified API that makes switching between different machine learning models seamless.",
+              "Splitting data into training and testing sets is critical to ensure your model is evaluated on data it hasn't seen before."
+            ]
+          }
+        },
+        {
+          "id": 3,
+          "title": "Data Preprocessing & EDA",
+          "description": "Learn how to clean datasets, handle missing values, and perform exploratory data analysis to understand data distributions."
+        },
+        {
+          "id": 4,
+          "title": "Supervised Learning",
+          "description": "Study algorithms that learn from labeled data, including regression techniques and classification models like decision trees."
+        },
+        {
+          "id": 5,
+          "title": "Unsupervised Learning",
+          "description": "Explore techniques for finding patterns in unlabeled data through clustering and dimensionality reduction."
+        },
+        {
+          "id": 6,
+          "title": "Model Evaluation & Optimization",
+          "description": "Understand how to assess performance using metrics like precision, recall, and ROC curves, alongside hyperparameter tuning."
+        },
+        {
+          "id": 7,
+          "title": "Ensemble Learning",
+          "description": "Learn to combine multiple models to improve predictive accuracy through bagging, boosting, and stacking methods."
+        },
+        {
+          "id": 8,
+          "title": "Neural Network Basics",
+          "description": "Grasp the fundamental concepts of artificial neural networks, including neurons, layers, and backpropagation."
+        },
+        {
+          "id": 9,
+          "title": "Deep Learning Architectures",
+          "description": "Dive into advanced architectures such as Convolutional Neural Networks (CNNs) for images and Recurrent Neural Networks (RNNs) for sequences."
+        },
+        {
+          "id": 10,
+          "title": "Natural Language Processing (NLP)",
+          "description": "Apply machine learning to text data using techniques like tokenization, word embeddings, and transformer models."
+        },
+        {
+          "id": 11,
+          "title": "Reinforcement Learning",
+          "description": "Study how agents learn optimal behaviors through trial and error within dynamic environments using rewards."
+        },
+        {
+          "id": 12,
+          "title": "MLOps & Model Deployment",
+          "description": "Learn how to move models from development to production and manage their lifecycle through automated pipelines."
+        }
+      ]
+    },
+    {
+      "topic": "sql",
+      "steps": [
+        {
+          "id": 1,
+          "title": "Introduction to Relational Databases",
+          "description": "Understand the fundamentals of Relational Database Management Systems (RDBMS) and basic SQL syntax.",
+          "lesson": {
+            "title": "Introduction to Relational Databases",
+            "introduction": "Before writing queries, it is essential to understand how data is organized within a relational system. This lesson introduces the core concepts of tables, rows, and the software used to manage them.",
+            "sections": [
+              {
+                "title": "What is a Relational Database?",
+                "content": "A relational database organizes data into structured tables consisting of rows and columns. Each row represents a single, unique record, while columns define the specific attributes or properties of that data."
+              },
+              {
+                "title": "The Role of an RDBMS",
+                "content": "A Relational Database Management System (RDBMS) is the software that allows you to interact with the database using SQL. Common examples include MySQL, PostgreSQL, Microsoft SQL Server, and Oracle Database."
+              },
+              {
+                "title": "Primary Keys",
+                "content": "A Primary Key is a unique identifier for every record within a table. It ensures that no two rows are exactly the same and allows you to pinpoint a specific piece of data efficiently and reliably."
+              },
+              {
+                "title": "Foreign Keys and Relationships",
+                "content": "Foreign Keys are columns that create a link between two tables by referencing the Primary Key of another table. This mechanism is the core of relational databases, allowing you to connect data from different entities, such as linking a customer to their specific orders."
+              },
+              {
+                "title": "The RDBMS: The Engine Behind the Data",
+                "content": "A Relational Database Management System (RDBMS) is the software used to create, manage, and interact with relational databases. Popular examples include MySQL, PostgreSQL, and Microsoft SQL Server, which provide the tools to execute SQL commands and maintain data integrity."
+              },
+              {
+                "title": "Linking Data with Keys",
+                "content": "Relationships between tables are maintained using Primary Keys and Foreign Keys. A Primary Key uniquely identifies each record in a table, while a Foreign Key is a column in one table that refers to the Primary Key of another, creating a logical link between them."
+              },
+              {
+                "title": "Connecting Data with Foreign Keys",
+                "content": "While primary keys uniquely identify a row within its own table, foreign keys are used to create relationships between different tables. A foreign key is a column in one table that points to the primary key of another, effectively linking the two datasets together."
+              },
+              {
+                "title": "Maintaining Referential Integrity",
+                "content": "Referential integrity is a crucial concept that ensures the relationships between tables remain consistent. It prevents users from performing actions that would break these links, such as deleting a record that is still being referenced by a foreign key in another table."
+              },
+              {
+                "title": "Understanding Table Relationships",
+                "content": "Relational databases connect data through logical relationships, most commonly one-to-many or many-to-many. For instance, one customer can be linked to many different orders, creating a web of interconnected information."
+              },
+              {
+                "title": "The Role of the DBMS",
+                "content": "A Database Management System (DBMS) is the software used to interact with the database. While the database is the collection of data, the DBMS—such as PostgreSQL, MySQL, or SQL Server—is the engine that handles storage, security, and query execution."
+              }
+            ],
+            "examples": [
+              {
+                "title": "Linking Tables via Keys",
+                "code": "-- Users table with a Primary Key\nCREATE TABLE Users (\n  user_id INT PRIMARY KEY,\n  username VARCHAR(50)\n);\n\n-- Orders table using a Foreign Key to link to Users\nCREATE TABLE Orders (\n  order_id INT PRIMARY KEY,\n  order_date DATE,\n  user_id INT,\n  FOREIGN KEY (user_id) REFERENCES Users(user_id)\n);"
+              },
+              {
+                "title": "Creating a Relationship with a Foreign Key",
+                "code": "-- Create a table for Users\nCREATE TABLE Users (\n    UserID INT PRIMARY KEY,\n    UserName VARCHAR(50)\n);\n\n-- Create a table for Orders that links to Users\nCREATE TABLE Orders (\n    OrderID INT PRIMARY KEY,\n    OrderDate DATE,\n    UserID INT,\n    FOREIGN KEY (UserID) REFERENCES Users(UserID)\n);"
+              },
+              {
+                "title": "Creating a Relationship Between Users and Orders",
+                "code": "-- Table 1: Users\nCREATE TABLE Users (\n    user_id INT PRIMARY KEY,\n    username VARCHAR(50)\n);\n\n-- Table 2: Orders (linked to Users via user_id)\nCREATE TABLE Orders (\n    order_id INT PRIMARY KEY,\n    order_date DATE,\n    user_id INT,\n    FOREIGN KEY (user_id) REFERENCES Users(user_id)\n);"
+              },
+              {
+                "title": "Creating a One-to-Many Relationship",
+                "code": "CREATE TABLE customers (\n    customer_id INT PRIMARY KEY,\n    name VARCHAR(100)\n);\n\nCREATE TABLE orders (\n    order_id INT PRIMARY KEY,\n    order_date DATE,\n    customer_id INT,\n    FOREIGN KEY (customer_id) REFERENCES customers(customer_id)\n);"
+              }
+            ],
+            "keyTakeaways": [
+              "Data is structured into tables with rows and columns.",
+              "An RDBMS is the engine used to manage and query the data.",
+              "Primary keys must be unique and cannot contain null values.",
+              "Foreign keys enforce referential integrity by ensuring a relationship exists between related tables.",
+              "An RDBMS is the specific software engine that processes SQL to manage your data.",
+              "Foreign keys are the essential mechanism that allows data to be spread across multiple tables while remaining connected.",
+              "Foreign keys act as the bridge that connects data across multiple tables.",
+              "Referential integrity ensures your database remains accurate by preventing 'orphaned' records.",
+              "Relationships allow different entities to connect logically, such as linking a single user to multiple transaction records.",
+              "The DBMS is the essential software layer that manages the database and processes your SQL commands."
+            ]
+          },
+          "quiz": {
+            "questions": [
+              {
+                "id": 1,
+                "type": "multiple_choice",
+                "question": "What is a unique identifier for every record within a table called?",
+                "options": [
+                  "Foreign Key",
+                  "Primary Key",
+                  "Column",
+                  "Row"
+                ],
+                "correctAnswer": 1,
+                "explanation": "A Primary Key is a unique identifier for every record within a table."
+              },
+              {
+                "id": 2,
+                "type": "true_false",
+                "question": "Foreign Keys create a link between tables by referencing the Primary Key of another table.",
+                "options": [
+                  "True",
+                  "False"
+                ],
+                "correctAnswer": 0,
+                "explanation": "Foreign Keys serve as the mechanism to connect data from different entities by referencing Primary Keys."
+              },
+              {
+                "id": 3,
+                "type": "multiple_choice",
+                "question": "What is the purpose of a Primary Key?",
+                "options": [
+                  "To link two tables",
+                  "To define attributes",
+                  "To uniquely identify a record",
+                  "To name a database"
+                ],
+                "correctAnswer": 2,
+                "explanation": "A Primary Key acts as a unique identifier for every record within a table."
+              },
+              {
+                "id": 4,
+                "type": "multiple_choice",
+                "question": "How do Foreign Keys create a relationship between tables?",
+                "options": [
+                  "By creating new rows",
+                  "By referencing a Primary Key",
+                  "By defining columns",
+                  "By using RDBMS software"
+                ],
+                "correctAnswer": 1,
+                "explanation": "Foreign Keys create links by referencing the Primary Key of another table."
+              },
+              {
+                "id": 5,
+                "type": "multiple_choice",
+                "question": "Which concept is used to create a link between two different tables?",
+                "options": [
+                  "Primary Key",
+                  "Foreign Key",
+                  "RDBMS",
+                  "Row"
+                ],
+                "correctAnswer": 1,
+                "explanation": "Foreign Keys create a link between two tables by referencing the Primary Key of another table."
+              }
+            ]
+          }
+        },
+        {
+          "id": 2,
+          "title": "Basic Data Retrieval",
+          "description": "Master the SELECT statement, column aliasing, and how to limit the number of rows returned."
+        },
+        {
+          "id": 3,
+          "title": "Filtering and Sorting Data",
+          "description": "Learn to use the WHERE clause, logical operators, and ORDER BY to refine and organize datasets."
+        },
+        {
+          "id": 4,
+          "title": "Aggregate Functions and Grouping",
+          "description": "Summarize data using functions like SUM, AVG, and COUNT alongside GROUP BY and HAVING clauses."
+        },
+        {
+          "id": 5,
+          "title": "Joining Multiple Tables",
+          "description": "Learn to combine data from different tables using INNER, LEFT, RIGHT, and FULL OUTER JOINs."
+        },
+        {
+          "id": 6,
+          "title": "Subqueries and Common Table Expressions (CTEs)",
+          "description": "Perform complex data retrieval by nesting queries and using CTEs for better readability."
+        },
+        {
+          "id": 7,
+          "title": "Data Manipulation Language (DML)",
+          "description": "Learn how to add, modify, and remove records using INSERT, UPDATE, and DELETE statements."
+        },
+        {
+          "id": 8,
+          "title": "Data Definition Language (DDL)",
+          "description": "Understand how to create, modify, and delete database structures using CREATE, ALTER, and DROP."
+        },
+        {
+          "id": 9,
+          "title": "Advanced Window Functions",
+          "description": "Perform complex analytical tasks using window functions like RANK, ROW_NUMBER, and LEAD/LAG."
+        },
+        {
+          "id": 10,
+          "title": "Query Optimization and Indexing",
+          "description": "Improve database performance through effective indexing, understanding execution plans, and normalization."
+        }
+      ]
     }
   ]
 }

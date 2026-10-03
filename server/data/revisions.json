@@ -1,3 +1,12 @@
 {
-  "revisions": []
+  "revisions": [
+    {
+      "topic": "sql",
+      "stepId": 1,
+      "stepTitle": "Introduction to Relational Databases",
+      "wrongCount": 1,
+      "totalQuestions": 5,
+      "lastAttempt": "2026-10-03T09:55:20.401Z"
+    }
+  ]
 }
